@@ -6,8 +6,11 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Entity\Comment;
+use App\Entity\Order;
+use App\Entity\OrderCategory;
 use App\Entity\Post;
 use App\Form\CommentFormType;
+use App\Form\OrderFormType;
 use App\Form\PostFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,6 +61,17 @@ class BlogController extends AbstractController
             'categoryName' => $category->getName()
         ]);
     }
+    #[Route('/orders_category/{category_id}', name: 'orders_category')]
+    public function categoryOrders($category_id) {
+        $entityManager = $this->getDoctrine()->getManager();
+        $category = $entityManager->getRepository(OrderCategory::class)->find($category_id);
+        return $this->render('orders_category.html.twig', [
+            'orders' => $category->getOrders([
+                'createdAt' => 'DESC'
+            ]),
+            'categoryName' => $category->getName()
+        ]);
+    }
     #[Route('/create_post', name: 'create_post')]
     public function createPost(Request $request) {
         $post = new Post();
@@ -75,6 +89,33 @@ class BlogController extends AbstractController
         }
         return $this->render('create_post.html.twig', [
             'postForm' => $postForm->createView()
+        ]);
+    }
+    #[Route('/orders', name: 'view_orders')]
+    public function orders() {
+        $entityManager = $this->getDoctrine()->getManager();
+        return $this->render('view_orders.html.twig', [
+            'orders' => $entityManager->getRepository(Order::class)->findAll()
+        ]);
+    }
+    #[Route('/create_order', name: 'create_order')]
+    public function createOrder(Request $request) {
+        $order = new Order();
+        $orderForm = $this->createForm(OrderFormType::class, $order);
+        $orderForm->handleRequest($request);
+        if ($orderForm->isSubmitted() && $orderForm->isValid()) {
+            $order->setTitle($orderForm->get('title')->getData());
+            $order->setContent($orderForm->get('content')->getData());
+            $order->setCategory($orderForm->get('category')->getData());
+            $order->setContact($orderForm->get('contact')->getData());
+            $order->setAuthor($this->getUser());
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($order);
+            $entityManager->flush();
+            return $this->redirectToRoute('view_orders');
+        }
+        return $this->render('create_order.html.twig', [
+            'orderForm' => $orderForm->createView()
         ]);
     }
     #[Route('/{post_id}/create_comment', name: 'create_comment')]

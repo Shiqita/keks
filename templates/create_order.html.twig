@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Новый заказ{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row pt-4">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                {% if app.user %}
+                    <h2>Создание нового заказа</h2>
+                    {{ form_start(orderForm) }}
+                    <div class="mb-3">
+                        <label for="label" class="form-label">Название</label>
+                        {{ form_widget(orderForm.title, {'attr': {'class': 'form-control', 'id': 'label'}}) }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="label" class="form-label">Описание</label>
+                        {{ form_widget(orderForm.content, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="label" class="form-label">Категория</label>
+                        {{ form_widget(orderForm.category, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="label" class="form-label">Контакты для связи</label>
+                        {{ form_widget(orderForm.contact, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-2">Создать заказа</button>
+                    {{ form_end(orderForm) }}
+
+                {% endif %}
+                {% if not app.user %}
+                    <h1>Что бы создать заказ, вам необходимо авторизоваться.</h1>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="nav-link" href="{{ path('app_login') }}">Войти</a></li>
+                        <li><a class="nav-link" href="{{ path('app_register') }}">Регистрация</a></li>
+                    </ul>
+                {% endif %}
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+
+
+{% endblock %}
+

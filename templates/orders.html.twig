@@ -1,0 +1,31 @@
+{% for order in orders %}
+    <div class="row pt-4">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <span class="float-left">{{ order.getTitle() }}</span>
+                    <span class="float-right">{{ order.getCreatedAt()|date('Y-m-d H:i:s') }}</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ order.getTitle() }}</h5>
+                    <p class="card-text">{{ order.getContent()}} <br/> Контакты: {{ order.getContact() }}</p>
+                </div>
+                <div class="card-footer text-muted">
+                    <span class="float-left">
+                        <i class="bi bi-person-fill"></i>
+                        <a href="{{ path('user_orders', {'user_id': order.getAuthor().getId() }) }}"
+                           class="card-link"> {{ order.getAuthor().getUserName() }}</a>
+                    </span>
+                    <span class="float-right">
+                    <i class="bi bi-newspaper"></i>
+                        <a href="{{ path('orders_category', {'category_id': order.getCategory().getId() }) }}"
+                           class="card-link">{{ order.getCategory().getName() }}</a>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+{% endfor %}
+<div class="row pt-4"></div>

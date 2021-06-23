@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\OrderCategory;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Repository\UserRepository;
@@ -21,6 +22,18 @@ class ProfileController extends AbstractController
         if ($user instanceof User) {
             return $this->render('profile.html.twig', [
                 'posts' => $user->getPosts(),
+                'username' => $user->getUsername()
+            ]);
+        }
+        return new Response('You are not user!', Response::HTTP_FORBIDDEN);
+    }
+    #[Route('/user_orders/{user_id}', name: 'user_orders')]
+    public function userOrders($user_id) {
+        $entityManager = $this->getDoctrine()->getRepository(User::class);
+        $user = $entityManager->find($user_id);
+        if ($user instanceof User) {
+            return $this->render('profile_orders.html.twig', [
+                'orders' => $user->getOrders(),
                 'username' => $user->getUsername()
             ]);
         }
