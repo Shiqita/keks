@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+{% for user in users %}
+    <div class="row">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ user.getEmail() }}</h5>
+                <p class="card-text">{{ user.getUsername() }}</p>
+                {% for item in user.getRoles() %}
+                    <p class="card-text">{{ item }}<p>
+                    <a href="{{ path('remove_user', {'user_id' : user.id} ) }}" class="btn">Удалить пользователя</a>
+
+                    <button type="submit" class="btn">Выдать права админа</button>
+
+                    <button type="submit" class="btn">Забрать права админа</button>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endfor %}
+{% endblock %}
