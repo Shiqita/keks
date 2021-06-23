@@ -92,6 +92,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
@@ -103,24 +104,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
-    //public function addAdminRole($user): array
-    //{
-
-       // $roles = $this->roles;
-       // array_push($roles,'ROLE_ADMIN');
-
-     //   return array_unique($roles);
-    //}
-
-    //public function deleteAdminRole(): array
-   // {
-  //      $roles = $this->roles;
-//
-  //      unset($roles[array_search('ROLE_ADMIN',$roles)]);
-//
-    //    return array_unique($roles);
-   // }
 
     /**
      * @see PasswordAuthenticatedUserInterface

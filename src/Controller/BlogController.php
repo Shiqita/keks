@@ -20,7 +20,7 @@ class BlogController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         return $this->render('home/index.html.twig', [
             'posts' => $entityManager->getRepository(Post::class)->getPosts()
-        ])
+        ]);
     }
     #[Route('/post/{post_id}', name: 'full_post')]
     public function fullPost(Request $request) {
@@ -90,7 +90,7 @@ class BlogController extends AbstractController
             return $this->redirectToRoute('home');
         }
         return $this->render('full_post.html.twig', [
-            'postForm' => $postForm->createView()
+            'commentForm' => $commentForm->createView()
         ]);
     }
 }
