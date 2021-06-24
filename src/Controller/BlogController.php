@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class BlogController extends AbstractController
 {
     #[Route('/', name: 'home')]
-    public function index() {
+    public function styles() {
         $entityManager = $this->getDoctrine()->getManager();
         return $this->render('home/index.html.twig', [
             'posts' => $entityManager->getRepository(Post::class)->getPosts()
