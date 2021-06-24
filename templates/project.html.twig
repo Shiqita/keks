@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        {% if parent is not null %}
+            <div class="row pt-4">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body">
+                            На основе бизнес идеи <a href="{{ path('idea', {'idea_id': parent.id}) }}">{{ parent.title }}</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        {% endif %}
+        <div class="row pt-4">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="float-left">{{ project.getTitle() }}</span>
+                        <span class="float-right">{{ project.getCreatedAt()|date('Y-m-d H:i:s') }}</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ project.getTitle() }}</h5>
+                        <p class="card-text">{{ project.getContent()|raw }}</p>
+                    </div>
+                    <div class="card-footer text-muted">
+                    <span class="float-left">
+                        <i class="bi bi-person-fill"></i>
+                        <a href="{{ path('profile', {'author_id': project.getAuthor().getId() }) }}"
+                           class="card-link"> {{ project.getAuthor().getUserName() }}</a>
+                    </span>
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </div>
+        <div class="row pt-4"></div>
+    </div>
+{% endblock %}

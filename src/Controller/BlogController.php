@@ -4,11 +4,15 @@
 namespace App\Controller;
 
 
+use App\Entity\BusinessIdea;
+use App\Entity\BusinessProject;
 use App\Entity\Category;
 use App\Entity\Comment;
 use App\Entity\Order;
 use App\Entity\OrderCategory;
 use App\Entity\Post;
+use App\Entity\Prototype;
+use App\Entity\Research;
 use App\Form\CommentFormType;
 use App\Form\OrderFormType;
 use App\Form\PostFormType;
@@ -19,10 +23,34 @@ use Symfony\Component\Routing\Annotation\Route;
 class BlogController extends AbstractController
 {
     #[Route('/', name: 'home')]
-    public function styles() {
+    public function index() {
         $entityManager = $this->getDoctrine()->getManager();
+        $researches = $entityManager->getRepository(Research::class)->findAll();
+        $prototypes = $entityManager->getRepository(Prototype::class)->findAll();
+        $ideas = $entityManager->getRepository(BusinessIdea::class)->findAll();
+        $projects = $entityManager->getRepository(BusinessProject::class)->findAll();
+        foreach ($researches as $post) {
+            $post->type = 'research';
+            $post->type_id = $post->type . '_id';
+        }
+        foreach ($prototypes as $post) {
+            $post->type = 'prototype';
+            $post->type_id = $post->type . '_id';
+        }
+        foreach ($ideas as $post) {
+            $post->type = 'idea';
+            $post->type_id = $post->type . '_id';
+        }
+        foreach ($projects as $post) {
+            $post->type = 'project';
+            $post->type_id = $post->type . '_id';
+        }
+        $result = array_merge($researches, $prototypes, $ideas, $projects);
+        usort($result, function($a, $b) {
+            return $a->getCreatedAt() < $b->getCreatedAt();
+        });
         return $this->render('home/index.html.twig', [
-            'posts' => $entityManager->getRepository(Post::class)->getPosts()
+            'posts' => $result
         ]);
     }
     #[Route('/post/{post_id}', name: 'full_post')]
@@ -55,7 +83,7 @@ class BlogController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $category = $entityManager->getRepository(Category::class)->find($category_id);
         return $this->render('category.html.twig', [
-            'posts' => $category->getPosts([
+            'posts' => $category->getResearch([
                 'createdAt' => 'DESC'
             ]),
             'categoryName' => $category->getName()

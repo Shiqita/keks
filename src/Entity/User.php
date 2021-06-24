@@ -46,19 +46,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity=Post::class, mappedBy="author")
-     */
-    private $posts;
-
-    /**
      * @ORM\OneToMany(targetEntity=Order::class, mappedBy="author", orphanRemoval=true)
      */
     private $orders;
 
+    /**
+     * @ORM\OneToMany(targetEntity=BusinessIdea::class, mappedBy="author")
+     */
+    private $businessIdeas;
+
+    /**
+     * @ORM\OneToMany(targetEntity=BusinessProject::class, mappedBy="author")
+     */
+    private $businessProjects;
+
     public function __construct()
     {
-        $this->posts = new ArrayCollection();
         $this->orders = new ArrayCollection();
+        $this->businessIdeas = new ArrayCollection();
+        $this->businessProjects = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -159,36 +165,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection|Post[]
-     */
-    public function getPosts(): Collection
-    {
-        return $this->posts;
-    }
-
-    public function addPost(Post $post): self
-    {
-        if (!$this->posts->contains($post)) {
-            $this->posts[] = $post;
-            $post->setAuthor($this);
-        }
-
-        return $this;
-    }
-
-    public function removePost(Post $post): self
-    {
-        if ($this->posts->removeElement($post)) {
-            // set the owning side to null (unless already changed)
-            if ($post->getAuthor() === $this) {
-                $post->setAuthor(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Order[]
      */
     public function getOrders(): Collection
@@ -212,6 +188,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($order->getAuthor() === $this) {
                 $order->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|BusinessIdea[]
+     */
+    public function getBusinessIdeas(): Collection
+    {
+        return $this->businessIdeas;
+    }
+
+    public function addBusinessIdea(BusinessIdea $businessIdea): self
+    {
+        if (!$this->businessIdeas->contains($businessIdea)) {
+            $this->businessIdeas[] = $businessIdea;
+            $businessIdea->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBusinessIdea(BusinessIdea $businessIdea): self
+    {
+        if ($this->businessIdeas->removeElement($businessIdea)) {
+            // set the owning side to null (unless already changed)
+            if ($businessIdea->getAuthor() === $this) {
+                $businessIdea->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|BusinessProject[]
+     */
+    public function getBusinessProjects(): Collection
+    {
+        return $this->businessProjects;
+    }
+
+    public function addBusinessProject(BusinessProject $businessProject): self
+    {
+        if (!$this->businessProjects->contains($businessProject)) {
+            $this->businessProjects[] = $businessProject;
+            $businessProject->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBusinessProject(BusinessProject $businessProject): self
+    {
+        if ($this->businessProjects->removeElement($businessProject)) {
+            // set the owning side to null (unless already changed)
+            if ($businessProject->getAuthor() === $this) {
+                $businessProject->setAuthor(null);
             }
         }
 

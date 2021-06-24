@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row pt-4">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="float-left">{{ research.getTitle() }}</span>
+                        <span class="float-right">{{ research.getCreatedAt()|date('Y-m-d H:i:s') }}</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ research.getTitle() }}</h5>
+                        <p class="card-text">{{ research.getContent()|raw }}</p>
+                    </div>
+                    <div class="card-footer text-muted">
+                    <span class="float-left">
+                        <i class="bi bi-person-fill"></i>
+                        <a href="{{ path('profile', {'author_id': research.getAuthor().getId() }) }}"
+                           class="card-link"> {{ research.getAuthor().getUserName() }}</a>
+                    </span>
+                        <span class="float-right">
+                            <i class="bi bi-newspaper"></i>
+                            <a href="{{ path('category', {'category_id': research.getCategory().getId() }) }}"
+                               class="card-link">{{ research.getCategory().getName() }}</a>
+                            </span>
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </div>
+        <div class="row pt-4">
+            {% if prototypes|length > 0 %}
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Прототипы на основе этого исследования</h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            {% for prototype in prototypes %}
+                                <li class="list-group-item"><a
+                                            href="{{ path('prototype', {'prototype_id': prototype.id}) }}">{{ prototype.title }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            {% endif %}
+        </div>
+        {% if app.user %}
+            <div class="row pt-4">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <a href="{{ path('make_prototype', {'research_id': research.getId() }) }}"
+                       class="btn bg-prototype float-right">Создать прототип</a>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        {% endif %}
+        <div class="row pt-4"></div>
+    </div>
+{% endblock %}

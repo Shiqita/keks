@@ -25,13 +25,14 @@ class Category
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Post::class, mappedBy="category", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Research::class, mappedBy="category", orphanRemoval=true)
      */
-    private $posts;
+    private $research;
 
     public function __construct()
     {
         $this->posts = new ArrayCollection();
+        $this->research = new ArrayCollection();
     }
 
     public function __toString() {
@@ -56,29 +57,29 @@ class Category
     }
 
     /**
-     * @return Collection|Post[]
+     * @return Collection|Research[]
      */
-    public function getPosts(): Collection
+    public function getResearch(): Collection
     {
-        return $this->posts;
+        return $this->research;
     }
 
-    public function addPost(Post $post): self
+    public function addResearch(Research $research): self
     {
-        if (!$this->posts->contains($post)) {
-            $this->posts[] = $post;
-            $post->setCategory($this);
+        if (!$this->research->contains($research)) {
+            $this->research[] = $research;
+            $research->setCategory($this);
         }
 
         return $this;
     }
 
-    public function removePost(Post $post): self
+    public function removeResearch(Research $research): self
     {
-        if ($this->posts->removeElement($post)) {
+        if ($this->research->removeElement($research)) {
             // set the owning side to null (unless already changed)
-            if ($post->getCategory() === $this) {
-                $post->setCategory(null);
+            if ($research->getCategory() === $this) {
+                $research->setCategory(null);
             }
         }
 

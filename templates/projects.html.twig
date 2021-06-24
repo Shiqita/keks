@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row pt-4">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <a href="{{ path('make_project') }}" class="btn bg-project float-right">Опубликовать бизнес план</a>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        {% for project in projects %}
+            <div class="row pt-4">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="float-left">{{ project.getTitle() }}</span>
+                            <span class="float-right">{{ project.getCreatedAt()|date('Y-m-d H:i:s') }}</span>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ project.getTitle() }}</h5>
+                            <p class="card-text">
+                                {{ project.content|striptags|length > 80 ? project.content|slice(0,80)|raw : project.content|raw }}
+                                {{ project.content|striptags|length > 80 ? '...' : '' }}
+                            </p>
+                            <a href="{{ path('project', {'project_id': project.getId() }) }}" class="btn btn-primary float-right">Читать
+                                полностью</a>
+                        </div>
+                        <div class="card-footer text-muted">
+                    <span class="float-left">
+                        <i class="bi bi-person-fill"></i>
+                        <a href="{{ path('profile', {'author_id': project.getAuthor().getId() }) }}"
+                           class="card-link"> {{ project.getAuthor().getUserName() }}</a>
+                    </span>
+                        </div>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="row pt-4"></div>
+    </div>
+{% endblock %}

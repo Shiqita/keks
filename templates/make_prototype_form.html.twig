@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Новый прототип{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row pt-4">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                {% if app.user %}
+                    <h2>Создание нового прототипа</h2>
+                    {{ form_start(prototypeForm) }}
+                    <div class="mb-3">
+                        <label for="label" class="form-label">Загаловок</label>
+                        {{ form_widget(prototypeForm.title, {'attr': {'class': 'form-control', 'id': 'label'}}) }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="label" class="post_form_content">Текст</label>
+                        {{ form_widget(prototypeForm.content, {'attr': {'class': 'form-control', 'id': 'post_form_content'}}) }}
+                    </div>
+                    <button type="submit" class="btn bg-prototype mt-2">Опубликовать прототип</button>
+                    {{ form_end(prototypeForm) }}
+
+                {% endif %}
+                {% if not app.user %}
+                    <h1>Что бы опубликовать прототип, вам необходимо авторизоваться.</h1>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="nav-link" href="{{ path('app_login') }}">Войти</a></li>
+                        <li><a class="nav-link" href="{{ path('app_register') }}">Регистрация</a></li>
+                    </ul>
+                {% endif %}
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        {{ tinymce_init({
+            'selector': 'post_form_content',
+            'plugins': [
+                'advlist autolink lists link image charmap preview hr anchor pagebreak',
+                'searchreplace wordcount visualblocks visualchars code',
+                'insertdatetime media nonbreaking table contextmenu directionality',
+                'emoticons template paste textcolor colorpicker textpattern imagetools codesample'
+            ],
+            'toolbar': 'codesample | bold italic sizeselect fontselect fontsizeselect | hr alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | insertfile undo redo | forecolor backcolor emoticons | code',
+            'fontsize_formats': "8pt 10pt 12pt 14pt 18pt 24pt 36pt",
+            'height': "350",
+            'menubar': false
+        }) }}
+    </div>
+
+{% endblock %}
+

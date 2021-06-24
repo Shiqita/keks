@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        {% if parent is not null %}
+            <div class="row pt-4">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body">
+                            На основе исследования <a
+                                    href="{{ path('research', {'research_id': parent.id}) }}">{{ parent.title }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <div class="row pt-4">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="float-left">{{ prototype.getTitle() }}</span>
+                        <span class="float-right">{{ prototype.getCreatedAt()|date('Y-m-d H:i:s') }}</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ prototype.getTitle() }}</h5>
+                        <p class="card-text">{{ prototype.getContent()|raw }}</p>
+                    </div>
+                    <div class="card-footer text-muted">
+                    <span class="float-left">
+                        <i class="bi bi-person-fill"></i>
+                        <a href="{{ path('profile', {'author_id': prototype.getAuthor().getId() }) }}"
+                           class="card-link"> {{ prototype.getAuthor().getUserName() }}</a>
+                    </span>
+                    </div>
+                </div>
+
+                <div class="col-md-2"></div>
+            </div>
+        </div>
+        {% if app.user %}
+            <div class="row pt-4">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <a href="{{ path('make_idea', {'prototype_id': prototype.getId() }) }}"
+                       class="btn bg-idea float-right">Создать бизнес идею</a>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        {% endif %}
+        {% if ideas|length > 0 %}
+            <div class="row pt-4">
+
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Бизнес идеи на основе этого прототипа</h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            {% for idea in ideas %}
+                                <li class="list-group-item"><a
+                                            href="{{ path('idea', {'idea_id': idea.id}) }}">{{ idea.title }}</a><br/>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        {% endif %}
+        <div class="row pt-4"></div>
+    </div>
+{% endblock %}

@@ -4,18 +4,31 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <span class="float-left">{{ post.getTitle() }}</span>
+                    <span class="float-left">
+                         {% if post.type == "research" %}
+                             <span class="badge bg-research">Исследование</span>
+                         {% endif %}
+                        {% if post.type == "prototype" %}
+                            <span class="badge bg-prototype">Прототип</span>
+                        {% endif %}
+                        {% if post.type == "idea" %}
+                            <span class="badge bg-idea">Бизнес Идея</span>
+                        {% endif %}
+                        {% if post.type == "project" %}
+                            <span class="badge bg-project">Бизнес Проект</span>
+                        {% endif %}
+                        {{ post.getTitle() }}
+                    </span>
                     <span class="float-right">{{ post.getCreatedAt()|date('Y-m-d H:i:s') }}</span>
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">{{ post.getTitle() }}</h5>
                     {# <p class="card-text">{{ post.getContent()|length > 50 ? post.getContent()|slice(0, 255)|raw ~ '...' : post.getContent()|raw }}</p> #}
                     {# <p class="card-text">{{ post.content|striptags|length > 50 ? post.content|striptags|truncate(50, true, "...")|raw  : post.content|striptags|raw }}</p> #}
                     <p class="card-text">
                         {{ post.content|striptags|length > 80 ? post.content|slice(0,80)|raw : post.content|raw }}
                         {{ post.content|striptags|length > 80 ? '...' : '' }}
                     </p>
-                    <a href="{{ path('full_post', {'post_id': post.getId() }) }}" class="btn btn-primary float-right">Читать
+                    <a href="{{ path(post.type, {"research_id": post.getId(), "prototype_id": post.getId(), "idea_id": post.getId(), "project_id": post.getId()}) }}" class="btn btn-primary float-right">Читать
                         полностью</a>
                 </div>
                 <div class="card-footer text-muted">
