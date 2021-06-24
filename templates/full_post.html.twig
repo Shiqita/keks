@@ -12,7 +12,7 @@
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ post.getTitle() }}</h5>
-                        <p class="card-text">{{ post.getContent() }}</p>
+                        <p class="card-text">{{ post.getContent()|raw }}</p>
                     </div>
                     <div class="card-footer text-muted">
                     <span class="float-left">

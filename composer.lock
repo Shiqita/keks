@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2403108bc1fcf44c245aa9fc27492ba9",
+    "content-hash": "58189888ccb67f257944a5ba5ab51d87",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -2232,6 +2232,72 @@
                 "source": "https://github.com/sensiolabs/SensioFrameworkExtraBundle/tree/v6.1.5"
             },
             "time": "2021-05-31T10:40:46+00:00"
+        },
+        {
+            "name": "stfalcon/tinymce-bundle",
+            "version": "v3.0.2",
+            "target-dir": "Stfalcon/Bundle/TinymceBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stfalcon/TinymceBundle.git",
+                "reference": "0d2cdb0b72abc27584080e87c6aa6fb4847368a9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stfalcon/TinymceBundle/zipball/0d2cdb0b72abc27584080e87c6aa6fb4847368a9",
+                "reference": "0d2cdb0b72abc27584080e87c6aa6fb4847368a9",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0",
+                "symfony/framework-bundle": "^5.0",
+                "twig/twig": "^2.12|^3.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Stfalcon\\Bundle\\TinymceBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stepan Tanasiychuk",
+                    "email": "ceo@stfalcon.com",
+                    "homepage": "http://blog.stfalcon.com"
+                },
+                {
+                    "name": "Igor Negrutsa",
+                    "email": "progi2007@gmail.com",
+                    "homepage": "http://igor-negrutsa.info"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://github.com/stfalcon/TinymceBundle/contributors"
+                }
+            ],
+            "description": "This Bundle integrates TinyMCE WYSIWYG editor into a Symfony2 project.",
+            "keywords": [
+                "Symfony2",
+                "bundle",
+                "editor",
+                "tinymce",
+                "wysiwyg"
+            ],
+            "support": {
+                "email": "logansoleg@gmail.com",
+                "issues": "https://github.com/stfalcon/TinymceBundle/issues",
+                "source": "https://github.com/stfalcon/TinymceBundle/tree/v3.0.2"
+            },
+            "time": "2021-06-07T07:32:04+00:00"
         },
         {
             "name": "symfony/asset",
@@ -10057,7 +10123,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.2.5",
+        "php": ">=8.0",
         "ext-ctype": "*",
         "ext-iconv": "*"
     },

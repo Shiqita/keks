@@ -9,8 +9,14 @@
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">{{ post.getTitle() }}</h5>
-                    <p class="card-text">{{ post.getContent()|length > 50 ? post.getContent()|slice(0, 255) ~ '...' : post.getContent() }}</p>
-                    <a href="{{ path('full_post', {'post_id': post.getId() }) }}" class="btn btn-primary float-right">Читать полностью</a>
+                    {# <p class="card-text">{{ post.getContent()|length > 50 ? post.getContent()|slice(0, 255)|raw ~ '...' : post.getContent()|raw }}</p> #}
+                    {# <p class="card-text">{{ post.content|striptags|length > 50 ? post.content|striptags|truncate(50, true, "...")|raw  : post.content|striptags|raw }}</p> #}
+                    <p class="card-text">
+                        {{ post.content|striptags|length > 80 ? post.content|slice(0,80)|raw : post.content|raw }}
+                        {{ post.content|striptags|length > 80 ? '...' : '' }}
+                    </p>
+                    <a href="{{ path('full_post', {'post_id': post.getId() }) }}" class="btn btn-primary float-right">Читать
+                        полностью</a>
                 </div>
                 <div class="card-footer text-muted">
                     <span class="float-left">
