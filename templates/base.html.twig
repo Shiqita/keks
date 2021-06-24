@@ -22,7 +22,6 @@
      style="height: 70px;">
 
     <a class="navbar-brand" href="{{ path('home') }}">tech transfer center</a>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent"></div>
     <ul class="nav navbar-nav navbar-left">
         <li>
             <a class="nav-link" href="{{ path('view_orders') }}">Список заказов</a>
@@ -30,7 +29,11 @@
         <li>
             <a class="nav-link" href="{{ path('home') }}">Список статей</a>
         </li>
+        <li>
+            <a class="nav-link" href="{{ path('products') }}">Производимая продукция</a>
+        </li>
     </ul>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent"></div>
     {% if app.user %}
     <ul class="nav navbar-nav navbar-right">
         <li>

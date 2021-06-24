@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container pt-5">
+        <h5>Поиск</h5>
+        {{ form_start(searchForm) }}
+            <div class="row align-items-end">
+                <div class="form-group col-3 col-md-3 ">
+                    <label for="">Название</label>
+                    {{ form_widget(searchForm.name, {'attr': {'class': 'form-control', 'required': false}}) }}
+                </div>
+                <div class="form-group col-3 col-md-3 ">
+                    <label for="">Тип продукции</label>
+                    {{ form_widget(searchForm.type, {'attr': {'class': 'form-control', 'required': false}}) }}
+                </div>
+                <div class="form-group col-3 col-md-3">
+                    <label for="">Город</label>
+                    {{ form_widget(searchForm.city, {'attr': {'class': 'form-control', 'required': false}}) }}
+                </div>
+                <div class="form-group col-3 col-md-3">
+                    <button type="submit" class="btn btn-primary mt-2">Отправить</button>
+                </div>
+            </div>
+        {{ form_end(searchForm) }}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Название</th>
+                <th scope="col">Тип</th>
+                <th scope="col">Производитель</th>
+                <th scope="col">Город</th>
+                <th scope="col">Контакты</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.type }}</td>
+                <td>{{ product.companyName }}</td>
+                <td>{{ product.city }}</td>
+                <td>{{ product.contact }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
