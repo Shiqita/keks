@@ -20,23 +20,17 @@ class ProductRepository extends ServiceEntityRepository
     }
 
     public function findProducts($name, $type, $city) {
-        echo($this->createQueryBuilder('p')
-            ->orWhere('p.name = :name')
-            ->orWhere('p.type = :type')
-            ->orWhere('p.city = :city')
-            ->setParameter('name', $name)
-            ->setParameter('type', $type)
-            ->setParameter('city', $city)
-            ->getQuery()->getSQL());
-        return $this->createQueryBuilder('p')
-            ->orWhere('p.name = :name')
-            ->orWhere('p.type = :type')
-            ->orWhere('p.city = :city')
-            ->setParameter('name', $name)
-            ->setParameter('type', $type)
-            ->setParameter('city', $city)
-            ->getQuery()
-            ->getResult();
+        $q = $this->createQueryBuilder('p');
+        if ($name != "") {
+            $q = $q->andWhere('p.name = :name')->setParameter('name', $name);
+        }
+        if ($type != "") {
+            $q = $q->andWhere('p.type = :type')->setParameter('type', $type);
+        }
+        if ($city != "") {
+            $q = $q->andWhere('p.city = :city')->setParameter('city', $city);
+        }
+        return $q->getQuery()->getResult();
     }
 
     // /**

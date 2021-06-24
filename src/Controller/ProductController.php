@@ -24,17 +24,20 @@ class ProductController extends AbstractController
             ->add("city", null, ['required' => false])
             ->getForm();
         $searchForm->handleRequest($request);
+        $products = $entityManager->findAll();
         if ($searchForm->isSubmitted() && $searchForm->isValid()) {
             $data = $searchForm->getData();
-            $products = $entityManager->findProducts($searchForm->get('name'), $searchForm->get('type'), $searchForm->get('city'));
-            return $this->render('view_products.html.twig', [
-                'searchForm' => $searchForm->createView(),
-                'products' => $products
-            ]);
+            $products = $entityManager->findProducts($data['name'], $data['type'], $data['city']);
+            unset($searchForm);
+            $searchForm = $this->createFormBuilder()
+                ->add("name", null, ['required' => false])
+                ->add("type", null, ['required' => false])
+                ->add("city", null, ['required' => false])
+                ->getForm();
         }
         return $this->render('view_products.html.twig', [
             'searchForm' => $searchForm->createView(),
-            'products' => $entityManager->findAll()
+            'products' => $products
         ]);
     }
 }
