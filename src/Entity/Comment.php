@@ -25,12 +25,6 @@ class Comment
     private $author;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Post::class, inversedBy="comments")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $post;
-
-    /**
      * @ORM\Column(type="text")
      */
     private $content;
@@ -39,6 +33,16 @@ class Comment
      * @ORM\Column(type="datetime", nullable=false)
      */
     private $createdAt;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $post_type;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $post_id;
 
     public function __construct() {
         $this->createdAt = new DateTime();
@@ -57,18 +61,6 @@ class Comment
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
-
-        return $this;
-    }
-
-    public function getPost(): ?Post
-    {
-        return $this->post;
-    }
-
-    public function setPost(?Post $post): self
-    {
-        $this->post = $post;
 
         return $this;
     }
@@ -93,6 +85,30 @@ class Comment
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getPostType(): ?string
+    {
+        return $this->post_type;
+    }
+
+    public function setPostType(string $post_type): self
+    {
+        $this->post_type = $post_type;
+
+        return $this;
+    }
+
+    public function getPostId(): ?int
+    {
+        return $this->post_id;
+    }
+
+    public function setPostId(int $post_id): self
+    {
+        $this->post_id = $post_id;
 
         return $this;
     }

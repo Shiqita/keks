@@ -8,6 +8,7 @@ use App\Entity\Comment;
 use App\Entity\Post;
 use App\Entity\Prototype;
 use App\Entity\Research;
+use App\Entity\User;
 use App\Form\CommentFormType;
 use App\Form\PostFormType;
 use App\Form\PrototypeFormType;
@@ -28,14 +29,37 @@ class PrototypeController extends AbstractController
         ]);
     }
     #[Route('/prototype/{prototype_id}', name: 'prototype')]
-    public function prototyp(Request $request) {
+    public function prototype(Request $request) {
         $prototype_id = $request->attributes->get('prototype_id');
-        $entityManager = $this->getDoctrine()->getManager()->getRepository(Prototype::class);
-        $prototype = $entityManager->find($prototype_id);
+        $entityManager = $this->getDoctrine()->getManager();
+        $prototype = $entityManager->getRepository(Prototype::class)->find($prototype_id);
+        $commentForm = $this->createFormBuilder()->add('content')->getForm();
+        $commentForm->handleRequest($request);
+        if ($commentForm->isSubmitted()) {
+            $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+            $user = $this->getUser();
+            $comment = new Comment();
+            $comment->setPostType('prototype');
+            $comment->setPostId($prototype_id);
+            if ($user instanceof User) {
+                $comment->setAuthor($user);
+            }
+            $comment->setContent($commentForm->get('content')->getData());
+            $entityManager->persist($comment);
+            $entityManager->flush();
+            return $this->redirect($request->getUri());
+        }
+        $comments = $entityManager->getRepository(Comment::class)->findBy([
+            'post_type' => 'prototype',  'post_id' => $prototype_id
+        ], [
+            'createdAt' => 'DESC'
+        ]);
         return $this->render('prototype.html.twig', [
             'prototype' => $prototype,
             'ideas' => $prototype->getBusinessIdeas(),
-            'parent' => $prototype->getResearch()
+            'parent' => $prototype->getResearch(),
+            'commentForm' => $commentForm->createView(),
+            'comments' => $comments
         ]);
     }
     #[Route('/make_prototype', name: 'make_prototype')]
