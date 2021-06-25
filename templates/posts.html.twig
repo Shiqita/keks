@@ -37,11 +37,13 @@
                         <a href="{{ path('profile', {'author_id': post.getAuthor().getId() }) }}"
                            class="card-link"> {{ post.getAuthor().getUserName() }}</a>
                     </span>
+                    {% if post.type == "research" %}
                     <span class="float-right">
                     <i class="bi bi-newspaper"></i>
                         <a href="{{ path('category', {'category_id': post.getCategory().getId() }) }}"
                            class="card-link">{{ post.getCategory().getName() }}</a>
                     </span>
+                    {% endif %}
                 </div>
             </div>
             <div class="col-md-2"></div>

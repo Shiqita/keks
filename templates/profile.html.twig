@@ -4,6 +4,211 @@
 
 {% block body %}
     <div class="container">
-        {% include 'posts.html.twig' with {'posts': posts} %}
+        <div class="row pt-4">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                {% if descriptionForm is not null %}
+                    <div class="card">
+                        {{ form_start(descriptionForm) }}
+                        <div class="card-header">О себе</div>
+                        <div class="card-body">
+                            <div class="card-text">
+                                <div class="row align-items-end">
+                                    <div class="form-group col-md-10">
+                                        {{ form_widget(descriptionForm.description, {'attr': {'class': 'form-control', 'required': true, 'value': description}}) }}
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary mt-2">Сохранить</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{ form_end(descriptionForm) }}
+                    </div>
+                {% elseif description is not null %}
+                    <div class="card">
+                        <div class="card-header">О себе</div>
+                        <div class="card-body">
+                            <div class="card-text">
+                                {{ description }}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        {% if researches|length > 0 %}
+            <div class="row pt-4">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <h5>Исследования {{ username }}</h5>
+                </div>
+
+                <div class="col-md-2"></div>
+            </div>
+        {% endif %}
+        {% for research in researches %}
+            <div class="row pt-4">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="float-left">{{ research.getTitle() }}</span>
+                            <span class="float-right">{{ research.getCreatedAt()|date('Y-m-d H:i:s') }}</span>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ research.getTitle() }}</h5>
+                            <p class="card-text">
+                                {{ research.content|striptags|length > 80 ? research.content|slice(0,80)|raw : research.content|raw }}
+                                {{ research.content|striptags|length > 80 ? '...' : '' }}
+                            </p>
+                            <a href="{{ path('research', {'research_id': research.getId() }) }}"
+                               class="btn btn-primary float-right">Читать
+                                полностью</a>
+                        </div>
+                        <div class="card-footer text-muted">
+                    <span class="float-left">
+                        <i class="bi bi-person-fill"></i>
+                        <a href="{{ path('profile', {'author_id': research.getAuthor().getId() }) }}"
+                           class="card-link"> {{ research.getAuthor().getUserName() }}</a>
+                    </span>
+                            <span class="float-right">
+                            <i class="bi bi-newspaper"></i>
+                            <a href="{{ path('category', {'category_id': research.getCategory().getId() }) }}"
+                               class="card-link">{{ research.getCategory().getName() }}</a>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+            </div>
+        {% endfor %}
+        {% if prototypes|length > 0 %}
+            <div class="row pt-4">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <h5>Прототипы {{ username }}</h5>
+                </div>
+
+                <div class="col-md-2"></div>
+            </div>
+        {% endif %}
+        {% for prototype in prototypes %}
+            <div class="row pt-4">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="float-left">{{ prototype.getTitle() }}</span>
+                            <span class="float-right">{{ prototype.getCreatedAt()|date('Y-m-d H:i:s') }}</span>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ prototype.getTitle() }}</h5>
+                            <p class="card-text">
+                                {{ prototype.content|striptags|length > 80 ? prototype.content|slice(0,80)|raw : prototype.content|raw }}
+                                {{ prototype.content|striptags|length > 80 ? '...' : '' }}
+                            </p>
+                            <a href="{{ path('prototype', {'prototype_id': prototype.getId() }) }}"
+                               class="btn btn-primary float-right">Читать
+                                полностью</a>
+                        </div>
+                        <div class="card-footer text-muted">
+                    <span class="float-left">
+                        <i class="bi bi-person-fill"></i>
+                        <a href="{{ path('profile', {'author_id': prototype.getAuthor().getId() }) }}"
+                           class="card-link"> {{ prototype.getAuthor().getUserName() }}</a>
+                    </span>
+                        </div>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+            </div>
+        {% endfor %}
+        {% if ideas|length > 0 %}
+            <div class="row pt-4">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <h5>Бизнес идеи {{ username }}</h5>
+                </div>
+
+                <div class="col-md-2"></div>
+            </div>
+        {% endif %}
+        {% for idea in ideas %}
+            <div class="row pt-4">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="float-left">{{ idea.getTitle() }}</span>
+                            <span class="float-right">{{ idea.getCreatedAt()|date('Y-m-d H:i:s') }}</span>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ idea.getTitle() }}</h5>
+                            <p class="card-text">
+                                {{ idea.content|striptags|length > 80 ? idea.content|slice(0,80)|raw : idea.content|raw }}
+                                {{ idea.content|striptags|length > 80 ? '...' : '' }}
+                            </p>
+                            <a href="{{ path('idea', {'idea_id': idea.getId() }) }}"
+                               class="btn btn-primary float-right">Читать
+                                полностью</a>
+                        </div>
+                        <div class="card-footer text-muted">
+                    <span class="float-left">
+                        <i class="bi bi-person-fill"></i>
+                        <a href="{{ path('profile', {'author_id': idea.getAuthor().getId() }) }}"
+                           class="card-link"> {{ idea.getAuthor().getUserName() }}</a>
+                    </span>
+                        </div>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+            </div>
+        {% endfor %}
+        {% if projects|length > 0 %}
+            <div class="row pt-4">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <h5>Бизнес проекты {{ username }}</h5>
+                </div>
+
+                <div class="col-md-2"></div>
+            </div>
+
+        {% endif %}
+        {% for project in projects %}
+            <div class="row pt-4">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="float-left">{{ project.getTitle() }}</span>
+                            <span class="float-right">{{ project.getCreatedAt()|date('Y-m-d H:i:s') }}</span>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ project.getTitle() }}</h5>
+                            <p class="card-text">
+                                {{ project.content|striptags|length > 80 ? project.content|slice(0,80)|raw : project.content|raw }}
+                                {{ project.content|striptags|length > 80 ? '...' : '' }}
+                            </p>
+                            <a href="{{ path('project', {'project_id': project.getId() }) }}"
+                               class="btn btn-primary float-right">Читать
+                                полностью</a>
+                        </div>
+                        <div class="card-footer text-muted">
+                    <span class="float-left">
+                        <i class="bi bi-person-fill"></i>
+                        <a href="{{ path('profile', {'author_id': project.getAuthor().getId() }) }}"
+                           class="card-link"> {{ project.getAuthor().getUserName() }}</a>
+                    </span>
+                        </div>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="row pt-4"></div>
     </div>
 {% endblock %}
