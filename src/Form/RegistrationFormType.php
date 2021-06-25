@@ -24,8 +24,12 @@ class RegistrationFormType extends AbstractType
                 'mapped' => false,
                 'type' => PasswordType::class,
                 'required' => true,
-                'first_options'=>['label'=>'Пароль'],
-                'second_options'=>['label'=>'Повторите пароль'],
+                'first_options'=>['label'=>'Пароль', 'attr' => ['class' => 'form-control'], 'row_attr' => [
+                    'class' => 'mb-3',
+                ]],
+                'second_options'=>['label'=>'Повторите пароль', 'attr' => ['class' => 'form-control'], 'row_attr' => [
+                    'class' => 'mb-3',
+                ]],
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank([
